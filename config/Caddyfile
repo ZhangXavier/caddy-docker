@@ -1,0 +1,10 @@
+{
+    debug
+    experimental_http3
+}
+
+(global-encode) {
+    encode zstd gzip
+}
+
+:80

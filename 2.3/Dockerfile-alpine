@@ -1,0 +1,82 @@
+FROM golang:1.15-alpine3.12 AS builder
+
+RUN apk add --no-cache \
+    git \
+    ca-certificates
+
+ENV XCADDY_VERSION v0.1.6
+# Configures xcaddy to build with this version of Caddy
+ENV CADDY_VERSION v2.3.0-rc.1
+# Configures xcaddy to not clean up post-build (unnecessary in a container)
+ENV XCADDY_SKIP_CLEANUP 1
+
+RUN set -eux; \
+    apkArch="$(apk --print-arch)"; \
+    case "$apkArch" in \
+        x86_64)  binArch='amd64'; checksum='6c28b77bed92793af72d1606d0cd311655f3e118204a60c53a77953880a632e11b1484435d20c3d4f7e5eec65d6898d1b1e382f664b2c1ee4f25ef4df85bac4a' ;; \
+        armhf)   binArch='armv6'; checksum='68dfdf5f1e278c3f292433b10117c8c2b60150a2559cb1912b64f3d3dfb719956c38415bedee569c02736be389eb86037402415a3b6d10936ec00d9feef2ad45' ;; \
+        armv7)   binArch='armv7'; checksum='a890b2c8f3c7681862ad4e94f08037ed85213457c9ed23fe3cada324f5fd9ccc39ba0bd452891a31611ba3b01a32d3de34e2f9216acc0ed7b68985d2c6bba9a3' ;; \
+        aarch64) binArch='arm64'; checksum='79ac2abf162ec34f91eff5192130a49ab296557805f3042fd94f1e66e28633e75f08a5035d9092d7042316930687b709c819df99f7b1f37c3296485f66cc813d' ;; \
+        ppc64el|ppc64le) binArch='ppc64le'; checksum='b5e01040f2533012528e0ce355fc1fab0b103bc3fdd980153814e33cf269b6a98427a17e720ce654b32651291a88a9a703ae732db774f10926e68fcc37e0915b' ;; \
+        s390x)   binArch='s390x'; checksum='2539b9359873d34362d612c776957effbe65cd1e5c07998a06f6566854d424a9aa849ecc806604fb7e6656c6f272ab3801cf9efb8b3d3262c38f4b949de7dfa6' ;; \
+        *) echo >&2 "error: unsupported architecture ($apkArch)"; exit 1 ;;\
+    esac; \
+    wget -O /tmp/xcaddy.tar.gz "https://github.com/caddyserver/xcaddy/releases/download/v0.1.6/xcaddy_0.1.6_linux_${binArch}.tar.gz"; \
+    echo "$checksum  /tmp/xcaddy.tar.gz" | sha512sum -c; \
+    tar x -z -f /tmp/xcaddy.tar.gz -C /usr/bin xcaddy; \
+    rm -f /tmp/xcaddy.tar.gz; \
+    chmod +x /usr/bin/xcaddy;
+
+WORKDIR /usr/bin
+
+RUN xcaddy build \
+    --with github.com/caddy-dns/cloudflare \
+    --with github.com/mastercactapus/caddy2-proxyprotocol \
+    --with github.com/caddyserver/nginx-adapter
+
+FROM alpine:3.12
+
+RUN apk add --no-cache ca-certificates mailcap
+
+RUN set -eux; \
+    mkdir -p \
+        /config/caddy \
+        /data/caddy \
+        /etc/caddy \
+        /usr/share/caddy \
+    ; \
+    wget -O /etc/caddy/Caddyfile "https://github.com/caddyserver/dist/raw/56302336e0bb7c8c5dff34cbcb1d833791478226/config/Caddyfile"; \
+    wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/56302336e0bb7c8c5dff34cbcb1d833791478226/welcome/index.html"
+
+# https://github.com/caddyserver/caddy/releases
+ENV CADDY_VERSION v2.3.0-rc.1
+
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+
+# set up nsswitch.conf for Go's "netgo" implementation
+# - https://github.com/docker-library/golang/blob/1eb096131592bcbc90aa3b97471811c798a93573/1.14/alpine3.12/Dockerfile#L9
+RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
+
+# See https://caddyserver.com/docs/conventions#file-locations for details
+ENV XDG_CONFIG_HOME /config
+ENV XDG_DATA_HOME /data
+
+VOLUME /config
+VOLUME /data
+
+LABEL org.opencontainers.image.version=v2.3.0-rc.1
+LABEL org.opencontainers.image.title=Caddy
+LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
+LABEL org.opencontainers.image.url=https://caddyserver.com
+LABEL org.opencontainers.image.documentation=https://caddyserver.com/docs
+LABEL org.opencontainers.image.vendor="Light Code Labs"
+LABEL org.opencontainers.image.licenses=Apache-2.0
+LABEL org.opencontainers.image.source="https://github.com/ZhangXavier/caddy-docker"
+
+EXPOSE 80
+EXPOSE 443
+EXPOSE 2019
+
+WORKDIR /srv
+
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
