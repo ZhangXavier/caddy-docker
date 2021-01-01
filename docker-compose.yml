@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   caddy:
-    image: zhuxia/caddy:2.3.0-rc.1
+    image: zhuxia/caddy:2.3.0
     container_name: caddy2-test
     restart: always
     ports:
