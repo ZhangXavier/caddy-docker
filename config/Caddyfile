@@ -1,6 +1,5 @@
 {
     debug
-    experimental_http3
 }
 
 (global-encode) {

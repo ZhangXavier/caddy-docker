@@ -1,4 +1,4 @@
-FROM golang:1.15-alpine3.12 AS builder
+FROM golang:1.15-alpine3.13 AS builder
 
 RUN apk add --no-cache \
     git \
@@ -30,11 +30,12 @@ RUN set -eux; \
 WORKDIR /usr/bin
 
 RUN xcaddy build \
-    --with github.com/caddy-dns/cloudflare \
+    --with github.com/caddy-dns/cloudflare@eda8e5aa22232e9c279b0df7531f20c331b331c6 \
     --with github.com/mastercactapus/caddy2-proxyprotocol \
-    --with github.com/caddyserver/nginx-adapter
+    --with github.com/caddyserver/nginx-adapter \
+    --with github.com/hairyhenderson/caddy-teapot-module@v0.0.2
 
-FROM alpine:3.12
+FROM alpine:3.13
 
 RUN apk add --no-cache ca-certificates mailcap
 
