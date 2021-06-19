@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   caddy:
-    image: zxavier/caddy:2.4.1
+    image: zxavier/caddy:mainline
     container_name: caddy2-test
     restart: always
     ports:

@@ -6,7 +6,7 @@ RUN apk add --no-cache \
 
 ENV XCADDY_VERSION v0.1.9
 # Configures xcaddy to build with this version of Caddy
-ENV CADDY_VERSION v2.4.2
+ENV CADDY_VERSION v2.4.3
 # Configures xcaddy to not clean up post-build (unnecessary in a container)
 ENV XCADDY_SKIP_CLEANUP 1
 
@@ -32,9 +32,9 @@ WORKDIR /usr/bin
 RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare \
     --with github.com/mastercactapus/caddy2-proxyprotocol \
-    --with github.com/hairyhenderson/caddy-teapot-module@v0.0.2
+    --with github.com/hairyhenderson/caddy-teapot-module
 
-FROM alpine:3.13
+FROM alpine:3.14
 
 RUN apk add --no-cache ca-certificates mailcap
 
@@ -49,7 +49,7 @@ RUN set -eux; \
     wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/a8ef04588bf34a9523b76794d601c6e9cb8e31d3/welcome/index.html"
 
 # https://github.com/caddyserver/caddy/releases
-ENV CADDY_VERSION v2.4.2
+ENV CADDY_VERSION v2.4.3
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
@@ -64,7 +64,7 @@ ENV XDG_DATA_HOME /data
 VOLUME /config
 VOLUME /data
 
-LABEL org.opencontainers.image.version=v2.4.2
+LABEL org.opencontainers.image.version=v2.4.3
 LABEL org.opencontainers.image.title=Caddy
 LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
 LABEL org.opencontainers.image.url=https://caddyserver.com

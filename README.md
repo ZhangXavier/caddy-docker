@@ -21,7 +21,7 @@
 
 - 建议使用`latest`版本，与`caddy`的`latest`版本相同。
 
-- 同时提供Docker Hub与Github的package地址。Docker Hub:[hub.docker.com/r/zxavier/caddy)](https://hub.docker.com/r/zxavier/caddy), Github容器地址：[ghcr.io/ZhangXavier/caddy](https://ghcr.io/ZhangXavier/caddy)，两地址版本号相同。
+- 同时提供Docker Hub与Github的package地址。Docker Hub:[hub.docker.com/r/zxavier/caddy](https://hub.docker.com/r/zxavier/caddy), Github容器地址：[ghcr.io/ZhangXavier/caddy](https://ghcr.io/ZhangXavier/caddy)，两地址版本号相同。
 
 - ⚠️`mainline`版本为最新发布版，包括`rc`与`bate`版，故请在低风险环境中使用。
 
@@ -41,8 +41,9 @@
 - [xcaddy](https://github.com/caddyserver/xcaddy)
 - [caddy-docker](https://github.com/caddyserver/caddy-docker)
 - [caddy-dns/cloudflare](https://github.com/caddy-dns/cloudflare)
-- [caddyserver/nginx-adapter](https://github.com/caddyserver/nginx-adapter)
 - [mastercactapus/caddy2-proxyprotocol](https://github.com/mastercactapus/caddy2-proxyprotocol)
+- [hairyhenderson/caddy-teapot-module](https://github.com/hairyhenderson/caddy-teapot-module)
+- [caddyserver/nginx-adapter](https://github.com/caddyserver/nginx-adapter)
 
 ## License
 
