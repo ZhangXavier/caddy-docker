@@ -8,6 +8,8 @@
 - [mastercactapus/caddy2-proxyprotocol](https://github.com/mastercactapus/caddy2-proxyprotocol)
 - [hairyhenderson/caddy-teapot-module](https://github.com/hairyhenderson/caddy-teapot-module)
 - [caddyserver/nginx-adapter](https://github.com/caddyserver/nginx-adapter) (在`2.4`版本中已经去除该组件)
+- [greenpau/caddy-authorize](https://github.com/greenpau/caddy-authorize) (在`2.4.6`版本添加)
+- [greenpau/caddy-auth-portal](https://github.com/greenpau/caddy-auth-portal) (在`2.4.6`版本添加)
 
 ## 已知的问题
 
@@ -44,6 +46,8 @@
 - [mastercactapus/caddy2-proxyprotocol](https://github.com/mastercactapus/caddy2-proxyprotocol)
 - [hairyhenderson/caddy-teapot-module](https://github.com/hairyhenderson/caddy-teapot-module)
 - [caddyserver/nginx-adapter](https://github.com/caddyserver/nginx-adapter)
+- [greenpau/caddy-authorize](https://github.com/greenpau/caddy-authorize)
+- [greenpau/caddy-auth-portal](https://github.com/greenpau/caddy-auth-portal)
 
 ## License
 
