@@ -12,7 +12,7 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -24,8 +24,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            /tmp/.2_3/.buildx-cache
+            # /tmp/.2_3/.buildx-cache
             /tmp/.2_4/.buildx-cache
+            /tmp/.2_5/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
@@ -42,20 +43,20 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
-      -
-        name: Build and push 2.3
-        id: docker_build_2_3
-        uses: docker/build-push-action@v2
-        with:
-          context: ./2.3
-          file: ./2.3/Dockerfile-alpine
-          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le
-          push: true
-          tags: |
-            zxavier/caddy:2.3,zxavier/caddy:2.3.0
-            ghcr.io/zhangxavier/caddy:2.3,ghcr.io/zhangxavier/caddy:2.3.0
-          cache-from: type=local,src=/tmp/.2_3/.buildx-cache
-          cache-to: type=local,dest=/tmp/.2_3/.buildx-cache
+      # -
+      #   name: Build and push 2.3
+      #   id: docker_build_2_3
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./2.3
+      #     file: ./2.3/Dockerfile-alpine
+      #     platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le
+      #     push: true
+      #     tags: |
+      #       zxavier/caddy:2.3,zxavier/caddy:2.3.0
+      #       ghcr.io/zhangxavier/caddy:2.3,ghcr.io/zhangxavier/caddy:2.3.0
+      #     cache-from: type=local,src=/tmp/.2_3/.buildx-cache
+      #     cache-to: type=local,dest=/tmp/.2_3/.buildx-cache
       -
         name: Build and push 2.4
         id: docker_build_2_4
@@ -63,13 +64,27 @@ jobs:
         with:
           context: ./2.4
           file: ./2.4/Dockerfile-alpine
-          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le
+          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
           push: true
           tags: |
-            zxavier/caddy:latest,zxavier/caddy:mainline,zxavier/caddy:2,zxavier/caddy:2.4,zxavier/caddy:2.4.6
-            ghcr.io/zhangxavier/caddy:latest,ghcr.io/zhangxavier/caddy:mainline,ghcr.io/zhangxavier/caddy:2,ghcr.io/zhangxavier/caddy:2.4,ghcr.io/zhangxavier/caddy:2.4.6
+            zxavier/caddy:latest,zxavier/caddy:2,zxavier/caddy:2.4,zxavier/caddy:2.4.6
+            ghcr.io/zhangxavier/caddy:latest,ghcr.io/zhangxavier/caddy:2,ghcr.io/zhangxavier/caddy:2.4,ghcr.io/zhangxavier/caddy:2.4.6
           cache-from: type=local,src=/tmp/.2_4/.buildx-cache
           cache-to: type=local,dest=/tmp/.2_4/.buildx-cache
+      -
+        name: Build and push 2.5
+        id: docker_build_2_5
+        uses: docker/build-push-action@v2
+        with:
+          context: ./2.5
+          file: ./2.5/Dockerfile-alpine
+          platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
+          push: true
+          tags: |
+            zxavier/caddy:mainline,zxavier/caddy:2.5.0-beta.1
+            ghcr.io/zhangxavier/caddy:mainline,ghcr.io/zhangxavier/caddy:2.5.0-beta.1
+          cache-from: type=local,src=/tmp/.2_5/.buildx-cache
+          cache-to: type=local,dest=/tmp/.2_5/.buildx-cache
       -
          name: Update repo description
          uses: peter-evans/dockerhub-description@v2
