@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine AS builder
+FROM golang:1.18-alpine AS builder
 
 RUN apk add --no-cache \
     git \
@@ -33,7 +33,8 @@ RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare \
     --with github.com/mastercactapus/caddy2-proxyprotocol \
     --with github.com/hairyhenderson/caddy-teapot-module \
-    --with github.com/greenpau/caddy-security
+    --with github.com/greenpau/caddy-security \
+    --with github.com/lucas-clemente/quic-go@v0.25.0
 
 FROM alpine:3.15
 
