@@ -67,8 +67,8 @@ jobs:
       #     platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
       #     push: true
       #     tags: |
-      #       zxavier/caddy:latest,zxavier/caddy:2,zxavier/caddy:2.4,zxavier/caddy:2.4.6
-      #       ghcr.io/zhangxavier/caddy:latest,ghcr.io/zhangxavier/caddy:2,ghcr.io/zhangxavier/caddy:2.4,ghcr.io/zhangxavier/caddy:2.4.6
+      #       zxavier/caddy:2.4,zxavier/caddy:2.4.6
+      #       ghcr.io/zhangxavier/caddy:2.4,ghcr.io/zhangxavier/caddy:2.4.6
       #     cache-from: type=local,src=/tmp/.2_4/.buildx-cache
       #     cache-to: type=local,dest=/tmp/.2_4/.buildx-cache
       -
@@ -81,8 +81,8 @@ jobs:
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
           push: true
           tags: |
-            zxavier/caddy:mainline,zxavier/caddy:2.5.0-rc.1
-            ghcr.io/zhangxavier/caddy:mainline,ghcr.io/zhangxavier/caddy:2.5.0-rc.1
+            zxavier/caddy:mainline,zxavier/caddy:latest,zxavier/caddy:2,zxavier/caddy:2.5,zxavier/caddy:2.5.0
+            ghcr.io/zhangxavier/caddy:mainline,ghcr.io/zhangxavier/caddy:latest,ghcr.io/zhangxavier/caddy:2,ghcr.io/zhangxavier/caddy:2.5,ghcr.io/zhangxavier/caddy:2.5.0
           cache-from: type=local,src=/tmp/.2_5/.buildx-cache
           cache-to: type=local,dest=/tmp/.2_5/.buildx-cache
       -
