@@ -2,7 +2,6 @@ FROM caddy:2-builder-alpine AS builder
 
 RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare \
-    --with github.com/mastercactapus/caddy2-proxyprotocol \
     --with github.com/hairyhenderson/caddy-teapot-module \
     --with github.com/greenpau/caddy-security
 
@@ -17,22 +16,18 @@ RUN set -eux; \
         /etc/caddy \
         /usr/share/caddy \
     ; \
-	wget -O /etc/caddy/Caddyfile "https://github.com/caddyserver/dist/raw/979e498d6d01e1fe7c22db848a3e3bc65369183f/config/Caddyfile"; \
-	wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/979e498d6d01e1fe7c22db848a3e3bc65369183f/welcome/index.html"
+	wget -O /etc/caddy/Caddyfile "https://github.com/caddyserver/dist/raw/8c5fc6fc265c5d8557f17a18b778c398a2c6f27b/config/Caddyfile"; \
+	wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/8c5fc6fc265c5d8557f17a18b778c398a2c6f27b/welcome/index.html"
 
-ENV CADDY_VERSION v2.5.2
+ENV CADDY_VERSION v2.6.2
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
-
-# set up nsswitch.conf for Go's "netgo" implementation
-# - https://github.com/docker-library/golang/blob/1eb096131592bcbc90aa3b97471811c798a93573/1.14/alpine3.12/Dockerfile#L9
-RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
 
 # See https://caddyserver.com/docs/conventions#file-locations for details
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data
 
-LABEL org.opencontainers.image.version=v2.5.0
+LABEL org.opencontainers.image.version=v2.6.2
 LABEL org.opencontainers.image.title=Caddy
 LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
 LABEL org.opencontainers.image.url=https://caddyserver.com
@@ -43,6 +38,7 @@ LABEL org.opencontainers.image.source="https://github.com/ZhangXavier/caddy-dock
 
 EXPOSE 80
 EXPOSE 443
+EXPOSE 443/udp
 EXPOSE 2019
 
 WORKDIR /srv
