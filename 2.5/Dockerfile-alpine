@@ -1,6 +1,6 @@
 FROM caddy:2-builder-alpine AS builder
 
-RUN xcaddy build \
+RUN xcaddy build v2.5.2 \
     --with github.com/caddy-dns/cloudflare \
     --with github.com/mastercactapus/caddy2-proxyprotocol \
     --with github.com/hairyhenderson/caddy-teapot-module \
