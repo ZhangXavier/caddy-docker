@@ -1,10 +1,10 @@
 FROM caddy:2-builder-alpine AS builder
 
 RUN xcaddy build v2.5.2 \
-    --with github.com/caddy-dns/cloudflare \
-    --with github.com/mastercactapus/caddy2-proxyprotocol \
-    --with github.com/hairyhenderson/caddy-teapot-module \
-    --with github.com/greenpau/caddy-security
+    --with github.com/caddy-dns/cloudflare@ed330a80c094fe73a59b5d8abc2624222550cc7e \
+    --with github.com/mastercactapus/caddy2-proxyprotocol@27e19628361b50aa252290d3982d2354dc6f93e5 \
+    --with github.com/hairyhenderson/caddy-teapot-module@b9b30e95e51e073839dd74547684d9fe2e2a81f9 \
+    --with github.com/greenpau/caddy-security@v1.1.17
 
 FROM alpine:3.16
 
