@@ -1,4 +1,4 @@
-name: Build and Publish Docker Linux image
+name: Build and Publish 2.7 Docker Linux image
 
 on:
   workflow_dispatch:

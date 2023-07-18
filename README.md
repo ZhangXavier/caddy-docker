@@ -30,12 +30,15 @@
 - `v2.3.0` 版本以及后续版本提示如下：
 
     1. 设置：net.core.rmem_max。这个值在 linux 上很小，对于高带宽 `quic` 传输来说需要调整大一些。看这里：[quic-go/wiki/UDP-Receive-Buffer-Size](https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size)，Linux 调整（Docker的host模式）可以参考连接中的内容。对于 Docker，如果不是使用的host 模式，对于 docker-compose 调整见这里：[compose-file-v2/sysctls](https://docs.docker.com/compose/compose-file/compose-file-v2/#sysctls)，需要 V2.1 以上版本的 compose。对于 docker run 调整见这里：[docker-run/sysctls](https://docs.docker.com/engine/reference/commandline/run/#configure-namespaced-kernel-parameters-sysctls-at-runtime)。在 caddy 日志的提示如下：
-        > failed to sufficiently increase receive buffer size (was: 208 kiB, wanted: 2048 kiB, got: 416 kiB). See https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size for details.
+        > failed to sufficiently increase receive buffer size (was: 208 kiB, wanted: 2048 kiB, got: 416 kiB). See [https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size](https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size) for details.
 
     2. remote_ip 默认情况下，匹配器不再读取 X-Forwarded-For 标头。这是未记录的行为，并且是不安全的默认值。如果您碰巧依赖于此，请启用 forwarded（在 Caddyfile 中，仅将其 forwarded 作为范围之前的第一个参数）以保持该行为。
 
     3. `️experimental_http3` 已经不在 `Caddyfile` 的全局选项中了，如果需要使用的话要在 Json 里设置：'servers > protocol > experimental_http3'。在 caddy 日志的提示如下：
-        > [WARNING][caddyfile] :0: the 'experimental_http3' global option is deprecated, please use the 'servers > protocol > experimental_http3' option instead
+
+        ``` sh
+            [WARNING][caddyfile] :0: the 'experimental_http3' global option is deprecated, please use the 'servers > protocol > experimental_http3' option instead
+        ```
 
 ## 鸣谢
 
