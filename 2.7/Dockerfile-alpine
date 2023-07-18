@@ -1,12 +1,12 @@
-FROM caddy:2.6.4-builder-alpine AS builder
+FROM caddy:2-builder-alpine AS builder
 
-RUN xcaddy build v2.6.4 \
-    --with github.com/caddy-dns/cloudflare@a9d3ae2690a1d232bc9f8fc8b15bd4e0a6960eec \
-    --with github.com/caddy-dns/duckdns@77870e12bac552ceb76917d82ced6db84b958c1f \
-    --with github.com/hairyhenderson/caddy-teapot-module@98629ebff8fbfdefb0be0a5226fac7dddaae6b38 \
-    --with github.com/greenpau/caddy-security@974e976cfa6090298ad934be3cc28959795a74c6
+RUN xcaddy build v2.7.0-beta.2 \
+    --with github.com/caddy-dns/cloudflare \
+    --with github.com/caddy-dns/duckdns \
+    --with github.com/hairyhenderson/caddy-teapot-module \
+    --with github.com/greenpau/caddy-security
 
-FROM alpine:3.16
+FROM alpine:3.18
 
 RUN apk add --no-cache \
     ca-certificates \
@@ -24,7 +24,7 @@ RUN set -eux; \
     wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/305fe484cc8a9ac72900e8cc172d652102a87240/welcome/index.html"
 
 # https://github.com/caddyserver/caddy/releases
-ENV CADDY_VERSION v2.6.4
+ENV CADDY_VERSION v2.7.0-beta.2
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
@@ -32,7 +32,7 @@ COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data
 
-LABEL org.opencontainers.image.version=v2.6.4
+LABEL org.opencontainers.image.version=v2.7.0-beta.2
 LABEL org.opencontainers.image.title=Caddy
 LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
 LABEL org.opencontainers.image.url=https://caddyserver.com

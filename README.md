@@ -5,6 +5,7 @@
 这是一个 caddy2 docker image，编译加入了如下组件：
 
 - [caddy-dns/cloudflare](https://github.com/caddy-dns/cloudflare)
+- [caddy-dns/duckdns](https://github.com/caddy-dns/duckdns)
 - [mastercactapus/caddy2-proxyprotocol](https://github.com/mastercactapus/caddy2-proxyprotocol)
 - [hairyhenderson/caddy-teapot-module](https://github.com/hairyhenderson/caddy-teapot-module)
 - ~~[caddyserver/nginx-adapter](https://github.com/caddyserver/nginx-adapter) (在 `2.4` 版本中已经去除该组件)~~
