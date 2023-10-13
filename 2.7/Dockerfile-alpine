@@ -1,6 +1,6 @@
 FROM caddy:2-builder-alpine AS builder
 
-RUN xcaddy build v2.7.4 \
+RUN xcaddy build v2.7.5 \
     --with github.com/caddy-dns/cloudflare@74f004e1c1ab9056288f0baf3cd4b0039d6c77f3 \
     --with github.com/caddy-dns/duckdns@77870e12bac552ceb76917d82ced6db84b958c1f \
     --with github.com/hairyhenderson/caddy-teapot-module@6fb9aa43843079928f09ecc3ace9fb0108786764
@@ -23,7 +23,7 @@ RUN set -eux; \
     wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/0c7fa00a87c65a6ef47ed36d841cd223682a2a2c/welcome/index.html"
 
 # https://github.com/caddyserver/caddy/releases
-ENV CADDY_VERSION v2.7.4
+ENV CADDY_VERSION v2.7.5
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
@@ -31,7 +31,7 @@ COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data
 
-LABEL org.opencontainers.image.version=v2.7.4
+LABEL org.opencontainers.image.version=v2.7.5
 LABEL org.opencontainers.image.title=Caddy
 LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
 LABEL org.opencontainers.image.url=https://caddyserver.com
