@@ -8,6 +8,7 @@
 - [caddy-dns/cloudflare](https://github.com/caddy-dns/cloudflare)
 - [caddy-dns/duckdns](https://github.com/caddy-dns/duckdns)
 - [hairyhenderson/caddy-teapot-module](https://github.com/hairyhenderson/caddy-teapot-module)
+- [ueffel/caddy-brotli](https://github.com/ueffel/caddy-brotli)
 - ~~[mastercactapus/caddy2-proxyprotocol](https://github.com/mastercactapus/caddy2-proxyprotocol)~~
 - ~~[caddyserver/nginx-adapter](https://github.com/caddyserver/nginx-adapter) (在 `2.4` 版本中已经去除该组件)~~
 - ~~[greenpau/caddy-security](https://github.com/greenpau/caddy-security) (由于我使用了 [authelia](https://www.authelia.com/) , 故在 `2.7.4` 版本中已经去除该组件)~~

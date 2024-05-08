@@ -3,7 +3,11 @@
 }
 
 (global-encode) {
-    encode zstd gzip
+    encode {
+        zstd
+        br v2
+        gzip
+    } 
 }
 
 :80
