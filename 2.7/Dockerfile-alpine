@@ -1,11 +1,11 @@
-FROM caddy:2-builder-alpine AS builder
+FROM caddy:2.7.6-builder-alpine AS builder
 
 RUN xcaddy build v2.7.6 \
     --with github.com/caddy-dns/cloudflare@8789126791ed250b532e1d7d512256737625e6e0 \
     --with github.com/caddy-dns/duckdns@77870e12bac552ceb76917d82ced6db84b958c1f \
     --with github.com/hairyhenderson/caddy-teapot-module@0cb03ce7d45ae9282fef62908bb20d75453be1d5
 
-FROM alpine:3.18
+FROM alpine:3.19
 
 RUN apk add --no-cache \
     ca-certificates \
