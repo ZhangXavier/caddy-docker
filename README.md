@@ -1,16 +1,16 @@
 # caddy2-docker
 
-[![Build and Publish 2.6 Docker Linux image](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.6.yml/badge.svg)](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.6.yml)
-[![Build and Publish 2.7 Docker Linux image](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.7.yml/badge.svg)](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.7.yml)
+[![Build and Publish 2.7 Docker Linux image](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.7.yaml/badge.svg)](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.7.yaml)
+[![Build and Publish 2.8 Docker Linux image](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.8.yaml/badge.svg)](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.8.yaml)
 
 这是一个 caddy2 docker image，编译加入了如下组件：
 
 - [caddy-dns/cloudflare](https://github.com/caddy-dns/cloudflare)
 - [caddy-dns/duckdns](https://github.com/caddy-dns/duckdns)
-- ~~[mastercactapus/caddy2-proxyprotocol](https://github.com/mastercactapus/caddy2-proxyprotocol)~~
 - [hairyhenderson/caddy-teapot-module](https://github.com/hairyhenderson/caddy-teapot-module)
+- ~~[mastercactapus/caddy2-proxyprotocol](https://github.com/mastercactapus/caddy2-proxyprotocol)~~
 - ~~[caddyserver/nginx-adapter](https://github.com/caddyserver/nginx-adapter) (在 `2.4` 版本中已经去除该组件)~~
-- ~~[greenpau/caddy-security](https://github.com/greenpau/caddy-security) (由于我使用了在 `2.7.4` 版本中已经去除该组件)~~
+- ~~[greenpau/caddy-security](https://github.com/greenpau/caddy-security) (由于我使用了 [authelia](https://www.authelia.com/) , 故在 `2.7.4` 版本中已经去除该组件)~~
 
 ## 已知的问题
 
