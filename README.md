@@ -50,6 +50,7 @@
 - [caddy-dns/cloudflare](https://github.com/caddy-dns/cloudflare)
 - [caddy-dns/duckdns](https://github.com/caddy-dns/duckdns)
 - [hairyhenderson/caddy-teapot-module](https://github.com/hairyhenderson/caddy-teapot-module)
+- [ueffel/caddy-brotli](https://github.com/ueffel/caddy-brotli)
 
 ## License
 
