@@ -43,8 +43,8 @@ jobs:
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
           push: true
           tags: |
-            zxavier/caddy:mainline,zxavier/caddy:beta,zxavier/caddy:2.8,zxavier/caddy:2.8.0-rc.1
-            ghcr.io/zhangxavier/caddy:mainline,ghcr.io/zhangxavier/caddy:beta,ghcr.io/zhangxavier/caddy:2.8,ghcr.io/zhangxavier/caddy:2.8.0-rc.1
+            zxavier/caddy:latest,zxavier/caddy:mainline,zxavier/caddy:2,zxavier/caddy:2.8,zxavier/caddy:2.8.0
+            ghcr.io/zhangxavier/caddy:latest,ghcr.io/zhangxavier/caddy:mainline,ghcr.io/zhangxavier/caddy:2,ghcr.io/zhangxavier/caddy:2.8,ghcr.io/zhangxavier/caddy:2.8.0
       -
          name: Update repo description
          uses: peter-evans/dockerhub-description@v3
