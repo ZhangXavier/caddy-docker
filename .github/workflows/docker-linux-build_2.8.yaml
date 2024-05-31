@@ -13,22 +13,22 @@ jobs:
     steps:
       -
         name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       -
         name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       -
         name: Login to DockerHub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -36,7 +36,7 @@ jobs:
       -
         name: Build and push 2.8
         id: docker_build_2_8
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: ./2.8
           file: ./2.8/Dockerfile-alpine
@@ -46,8 +46,8 @@ jobs:
             zxavier/caddy:latest,zxavier/caddy:mainline,zxavier/caddy:2,zxavier/caddy:2.8,zxavier/caddy:2.8.1
             ghcr.io/zhangxavier/caddy:latest,ghcr.io/zhangxavier/caddy:mainline,ghcr.io/zhangxavier/caddy:2,ghcr.io/zhangxavier/caddy:2.8,ghcr.io/zhangxavier/caddy:2.8.1
       -
-         name: Update repo description
-         uses: peter-evans/dockerhub-description@v3
+         name: Update Hub description
+         uses: peter-evans/dockerhub-description@v4
          with:
            username: ${{ secrets.DOCKERHUB_USERNAME }}
            password: ${{ secrets.DOCKERHUB_PASSWORD }}
