@@ -9,7 +9,7 @@ WORKDIR /build
 
 ENV XCADDY_VERSION v0.4.2
 # Configures xcaddy to build with this version of Caddy
-ENV CADDY_VERSION v2.8.1
+ENV CADDY_VERSION v2.8.2
 # Configures xcaddy to not clean up post-build (unnecessary in a container)
 ENV XCADDY_SKIP_CLEANUP 1
 # Sets capabilities for output caddy binary to be able to bind to privileged ports
@@ -21,7 +21,7 @@ RUN set -eux; \
     chmod +x /usr/bin/xcaddy
 
 RUN xcaddy build ${CADDY_VERSION} \
-    --with github.com/caddy-dns/cloudflare@44030f9306f4815aceed3b042c7f3d2c2b110c97 \
+    --with github.com/ZhangXavier/caddy-dns-cloudflare@995684b4b8776edcef5524d8b6329f56784485c6 \
     --with github.com/caddy-dns/duckdns@77870e12bac552ceb76917d82ced6db84b958c1f \
     --with github.com/hairyhenderson/caddy-teapot-module@0cb03ce7d45ae9282fef62908bb20d75453be1d5 \
     --with github.com/ueffel/caddy-brotli@de4efb4b9d9492075b325b46a29d8e2d79d97902
@@ -44,7 +44,7 @@ RUN set -eux; \
     wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/509c30cecd3cbc4012f6b1cc88d8f3f000fb06e4/welcome/index.html"
 
 # https://github.com/caddyserver/caddy/releases
-ENV CADDY_VERSION v2.8.1
+ENV CADDY_VERSION v2.8.2
 
 COPY --from=builder /build/caddy /usr/bin/caddy
 
@@ -52,7 +52,7 @@ COPY --from=builder /build/caddy /usr/bin/caddy
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data
 
-LABEL org.opencontainers.image.version=v2.8.1
+LABEL org.opencontainers.image.version=v2.8.2
 LABEL org.opencontainers.image.title=Caddy
 LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
 LABEL org.opencontainers.image.url=https://caddyserver.com
