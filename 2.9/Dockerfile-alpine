@@ -1,11 +1,17 @@
 FROM caddy:2.9-builder-alpine AS builder
 
+ENV CADDY_VERSION=v2.9.0
+
 RUN xcaddy build \
-    --with github.com/ZhangXavier/caddy-dns-cloudflare@89f16b99c18ef49c8bb470a82f895bce01cbaece \
+    --with github.com/caddy-dns/cloudflare@89f16b99c18ef49c8bb470a82f895bce01cbaece \
     --with github.com/caddy-dns/duckdns@77870e12bac552ceb76917d82ced6db84b958c1f \
     --with github.com/hairyhenderson/caddy-teapot-module@8b8b59521e46ea9b7ac825bea6de62cdde27d3f6 \
     --with github.com/ueffel/caddy-brotli@c07a3cc93ad9d0a1248c0b13ad48a82be92e4e6c
 
 FROM caddy:2.9-alpine
 
+ENV CADDY_VERSION=v2.9.0
+
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+
+LABEL org.opencontainers.image.version=v2.9.0
