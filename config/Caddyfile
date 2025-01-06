@@ -1,13 +1,29 @@
 {
+    admin :2019
+    metrics
     debug
+    servers {
+		log_credentials
+	}
 }
 
-(global-encode) {
+(default_encode) {
     encode {
-        zstd
-        br v2
-        gzip
+		zstd
+		gzip
+		br 4
     } 
+}
+
+(default_https_header) {
+	header {
+		Strict-Transport-Security "max-age=31536000;"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		X-XSS-Protection "0"
+		X-Robots-Tag "noindex, nofollow"
+		-Server
+	}
 }
 
 :80
