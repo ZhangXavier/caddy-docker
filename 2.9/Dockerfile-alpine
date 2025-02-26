@@ -1,17 +1,18 @@
 FROM caddy:2.9-builder-alpine AS builder
 
-ENV CADDY_VERSION=v2.9.0
+ENV CADDY_VERSION=v2.9.1
+ENV XCADDY_GO_BUILD_FLAGS="-ldflags '-w -s'"
 
 RUN xcaddy build \
-    --with github.com/caddy-dns/cloudflare@v0.0.0-20240703190432-89f16b99c18e \
+    --with github.com/caddy-dns/cloudflare@v0.0.0-20250214163716-188b4850c0f2 \
     --with github.com/caddy-dns/duckdns@v0.4.0 \
     --with github.com/hairyhenderson/caddy-teapot-module@v0.0.3-0.0.20241219193641-8b8b59521e46 \
-    --with github.com/ueffel/caddy-brotli@v1.5.0
+    --with github.com/ueffel/caddy-brotli@v1.6.0
 
 FROM caddy:2.9-alpine
 
-ENV CADDY_VERSION=v2.9.0
+ENV CADDY_VERSION=v2.9.1
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
-LABEL org.opencontainers.image.version=v2.9.0
+LABEL org.opencontainers.image.version=v2.9.1
