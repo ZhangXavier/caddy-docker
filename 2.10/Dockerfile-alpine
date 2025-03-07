@@ -7,7 +7,7 @@ RUN apk add --no-cache \
 
 WORKDIR /build
 
-# ENV XCADDY_VERSION v0.4.4
+ENV XCADDY_VERSION latest
 # Configures xcaddy to build with this version of Caddy
 ENV CADDY_VERSION v2.10.0-beta.1
 # Configures xcaddy to not clean up post-build (unnecessary in a container)
@@ -16,7 +16,7 @@ ENV XCADDY_SKIP_CLEANUP 1
 ENV XCADDY_SETCAP 1
 
 RUN set -eux; \
-    go install github.com/caddyserver/xcaddy/cmd/xcaddy; \
+    go install github.com/caddyserver/xcaddy/cmd/xcaddy@${XCADDY_VERSION}; \
     mv ${GOPATH}/bin/xcaddy /usr/bin/xcaddy; \
     chmod +x /usr/bin/xcaddy
 
