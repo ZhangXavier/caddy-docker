@@ -1,4 +1,4 @@
-FROM golang:1.22-alpine3.20 AS builder
+FROM golang:1-alpine AS builder
 
 RUN apk add --no-cache \
     ca-certificates \
@@ -7,26 +7,26 @@ RUN apk add --no-cache \
 
 WORKDIR /build
 
-ENV XCADDY_VERSION v0.4.2
+# ENV XCADDY_VERSION v0.4.4
 # Configures xcaddy to build with this version of Caddy
-ENV CADDY_VERSION v2.8.4
+ENV CADDY_VERSION v2.10.0-beta.1
 # Configures xcaddy to not clean up post-build (unnecessary in a container)
 ENV XCADDY_SKIP_CLEANUP 1
 # Sets capabilities for output caddy binary to be able to bind to privileged ports
 ENV XCADDY_SETCAP 1
 
 RUN set -eux; \
-    go install github.com/caddyserver/xcaddy/cmd/xcaddy@${XCADDY_VERSION}; \
+    go install github.com/caddyserver/xcaddy/cmd/xcaddy; \
     mv ${GOPATH}/bin/xcaddy /usr/bin/xcaddy; \
     chmod +x /usr/bin/xcaddy
 
 RUN xcaddy build ${CADDY_VERSION} \
-    --with github.com/ZhangXavier/caddy-dns-cloudflare@995684b4b8776edcef5524d8b6329f56784485c6 \
-    --with github.com/caddy-dns/duckdns@77870e12bac552ceb76917d82ced6db84b958c1f \
-    --with github.com/hairyhenderson/caddy-teapot-module@0cb03ce7d45ae9282fef62908bb20d75453be1d5 \
-    --with github.com/ueffel/caddy-brotli@de4efb4b9d9492075b325b46a29d8e2d79d97902
+    --with github.com/caddy-dns/cloudflare \
+    --with github.com/caddy-dns/duckdns \
+    --with github.com/hairyhenderson/caddy-teapot-module \
+    --with github.com/ueffel/caddy-brotli
 
-FROM alpine:3.20
+FROM alpine
 
 RUN apk add --no-cache \
     ca-certificates \
@@ -40,11 +40,11 @@ RUN set -eux; \
         /etc/caddy \
         /usr/share/caddy \
     ; \
-    wget -O /etc/caddy/Caddyfile "https://github.com/caddyserver/dist/raw/2f024e8988f98bcfc4e2d9924139ae4914a24e9a/config/Caddyfile"; \
-    wget -O /usr/share/caddy/index.html "https://github.com/caddyserver/dist/raw/2f024e8988f98bcfc4e2d9924139ae4914a24e9a/welcome/index.html"
+    wget -O /etc/caddy/Caddyfile "https://raw.githubusercontent.com/caddyserver/dist/refs/heads/master/config/Caddyfile"; \
+    wget -O /usr/share/caddy/index.html "https://raw.githubusercontent.com/caddyserver/dist/refs/heads/master/welcome/index.html"
 
 # https://github.com/caddyserver/caddy/releases
-ENV CADDY_VERSION v2.8.4
+ENV CADDY_VERSION v2.10.0-beta.1
 
 COPY --from=builder /build/caddy /usr/bin/caddy
 
@@ -52,7 +52,7 @@ COPY --from=builder /build/caddy /usr/bin/caddy
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data
 
-LABEL org.opencontainers.image.version=v2.8.4
+LABEL org.opencontainers.image.version=v2.10.0-beta.1
 LABEL org.opencontainers.image.title=Caddy
 LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
 LABEL org.opencontainers.image.url=https://caddyserver.com

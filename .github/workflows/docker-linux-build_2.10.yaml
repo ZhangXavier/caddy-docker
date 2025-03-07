@@ -1,11 +1,11 @@
-name: Build and Publish 2.8 Docker Linux image
+name: Build and Publish 2.10 Docker Linux image
 
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
     paths: 
-       - '2.8/**'
+       - '2.10/**'
 
 jobs:
   docker-linux-build:
@@ -34,17 +34,17 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
       -
-        name: Build and push 2.8
-        id: docker_build_2_8
-        uses: docker/build-push-action@v5
+        name: Build and push 2.10
+        id: docker_build_2_10
+        uses: docker/build-push-action@v6
         with:
-          context: ./2.8
-          file: ./2.8/Dockerfile-alpine
+          context: ./2.10
+          file: ./2.10/Dockerfile-alpine
           platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x
           push: true
           tags: |
-            zxavier/caddy:2.8,zxavier/caddy:2.8.4
-            ghcr.io/zhangxavier/caddy:2.8,ghcr.io/zhangxavier/caddy:2.8.4
+            zxavier/caddy:mainline,zxavier/caddy:2.10.0,zxavier/caddy:2.10.0-beta.1
+            ghcr.io/zhangxavier/caddy:mainline,ghcr.io/zhangxavier/caddy:2.10.0,ghcr.io/zhangxavier/caddy:2.10.0-beta.1
       -
          name: Update Hub description
          uses: peter-evans/dockerhub-description@v4
