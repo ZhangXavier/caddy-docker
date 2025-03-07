@@ -1,7 +1,7 @@
 # caddy2-docker
 
-[![Build and Publish 2.8 Docker Linux image](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.8.yaml/badge.svg)](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.8.yaml)
 [![Build and Publish 2.9 Docker Linux image](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.9.yaml/badge.svg)](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.9.yaml)
+[![Build and Publish 2.10 Docker Linux image](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.10.yaml/badge.svg)](https://github.com/ZhangXavier/caddy-docker/actions/workflows/docker-linux-build_2.10.yaml)
 
 这是一个 caddy2 docker image，编译加入了如下组件：
 
