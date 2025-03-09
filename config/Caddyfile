@@ -3,27 +3,27 @@
     metrics
     debug
     servers {
-		log_credentials
-	}
+        log_credentials
+    }
 }
 
-(default_encode) {
+(global-encode) {
     encode {
-		zstd
-		gzip
-		br 4
+        zstd
+        gzip
+        br 4
     } 
 }
 
 (default_https_header) {
-	header {
-		Strict-Transport-Security "max-age=31536000;"
-		X-Content-Type-Options "nosniff"
-		X-Frame-Options "DENY"
-		X-XSS-Protection "0"
-		X-Robots-Tag "noindex, nofollow"
-		-Server
-	}
+    header {
+        Strict-Transport-Security "max-age=31536000;"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "0"
+        X-Robots-Tag "noindex, nofollow"
+        -Server
+    }
 }
 
 :80
