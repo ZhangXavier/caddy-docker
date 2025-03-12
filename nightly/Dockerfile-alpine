@@ -1,0 +1,71 @@
+FROM golang:1-alpine AS builder
+
+RUN apk add --no-cache \
+    ca-certificates \
+    git \
+    libcap
+
+WORKDIR /build
+
+ENV XCADDY_VERSION latest
+# Configures xcaddy to build with this version of Caddy
+ENV CADDY_VERSION master
+# Configures xcaddy to not clean up post-build (unnecessary in a container)
+ENV XCADDY_SKIP_CLEANUP 1
+# Sets capabilities for output caddy binary to be able to bind to privileged ports
+ENV XCADDY_SETCAP 1
+
+RUN set -eux; \
+    go install github.com/caddyserver/xcaddy/cmd/xcaddy@${XCADDY_VERSION}; \
+    mv ${GOPATH}/bin/xcaddy /usr/bin/xcaddy; \
+    chmod +x /usr/bin/xcaddy
+
+RUN xcaddy build ${CADDY_VERSION} \
+    --with github.com/caddy-dns/cloudflare \
+    --with github.com/caddy-dns/duckdns \
+    --with github.com/hairyhenderson/caddy-teapot-module \
+    --with github.com/ueffel/caddy-brotli
+
+FROM alpine
+
+RUN apk add --no-cache \
+    ca-certificates \
+    libcap \
+    mailcap
+
+RUN set -eux; \
+    mkdir -p \
+        /config/caddy \
+        /data/caddy \
+        /etc/caddy \
+        /usr/share/caddy \
+    ; \
+    wget -O /etc/caddy/Caddyfile "https://raw.githubusercontent.com/caddyserver/dist/refs/heads/master/config/Caddyfile"; \
+    wget -O /usr/share/caddy/index.html "https://raw.githubusercontent.com/caddyserver/dist/refs/heads/master/welcome/index.html"
+
+# https://github.com/caddyserver/caddy/releases
+ENV CADDY_VERSION master
+
+COPY --from=builder /build/caddy /usr/bin/caddy
+
+# See https://caddyserver.com/docs/conventions#file-locations for details
+ENV XDG_CONFIG_HOME /config
+ENV XDG_DATA_HOME /data
+
+LABEL org.opencontainers.image.version=master
+LABEL org.opencontainers.image.title=Caddy
+LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
+LABEL org.opencontainers.image.url=https://caddyserver.com
+LABEL org.opencontainers.image.documentation=https://caddyserver.com/docs
+LABEL org.opencontainers.image.vendor="Light Code Labs"
+LABEL org.opencontainers.image.licenses=Apache-2.0
+LABEL org.opencontainers.image.source="https://github.com/ZhangXavier/caddy-docker"
+
+EXPOSE 80
+EXPOSE 443
+EXPOSE 443/udp
+EXPOSE 2019
+
+WORKDIR /srv
+
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
