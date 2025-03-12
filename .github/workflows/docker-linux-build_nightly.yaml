@@ -46,9 +46,7 @@ jobs:
           push: true
           tags: |
             zxavier/caddy:nightly
-            zxavier/caddy:nightly-${{ github.sha }}
             ghcr.io/zhangxavier/caddy:nightly
-            ghcr.io/zhangxavier/caddy:nightly-${{ github.sha }}
       -
          name: Update Hub description
          uses: peter-evans/dockerhub-description@v4
