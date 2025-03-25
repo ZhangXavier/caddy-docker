@@ -47,10 +47,10 @@ jobs:
             ghcr.io/zhangxavier/caddy:mainline
             zxavier/caddy:2.10
             zxavier/caddy:2.10.0
-            zxavier/caddy:2.10.0-beta.3
+            zxavier/caddy:2.10.0-beta.4
             ghcr.io/zhangxavier/caddy:2.10
             ghcr.io/zhangxavier/caddy:2.10.0
-            ghcr.io/zhangxavier/caddy:2.10.0-beta.3
+            ghcr.io/zhangxavier/caddy:2.10.0-beta.4
       -
          name: Update Hub description
          uses: peter-evans/dockerhub-description@v4
