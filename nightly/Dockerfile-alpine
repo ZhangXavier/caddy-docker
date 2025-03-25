@@ -7,13 +7,13 @@ RUN apk add --no-cache \
 
 WORKDIR /build
 
-ENV XCADDY_VERSION latest
+ENV XCADDY_VERSION=latest
 # Configures xcaddy to build with this version of Caddy
-ENV CADDY_VERSION master
+ENV CADDY_VERSION=master
 # Configures xcaddy to not clean up post-build (unnecessary in a container)
-ENV XCADDY_SKIP_CLEANUP 1
+ENV XCADDY_SKIP_CLEANUP=1
 # Sets capabilities for output caddy binary to be able to bind to privileged ports
-ENV XCADDY_SETCAP 1
+ENV XCADDY_SETCAP=1
 
 RUN set -eux; \
     go install github.com/caddyserver/xcaddy/cmd/xcaddy@${XCADDY_VERSION}; \
@@ -44,13 +44,13 @@ RUN set -eux; \
     wget -O /usr/share/caddy/index.html "https://raw.githubusercontent.com/caddyserver/dist/refs/heads/master/welcome/index.html"
 
 # https://github.com/caddyserver/caddy/releases
-ENV CADDY_VERSION master
+ENV CADDY_VERSION=master
 
 COPY --from=builder /build/caddy /usr/bin/caddy
 
 # See https://caddyserver.com/docs/conventions#file-locations for details
-ENV XDG_CONFIG_HOME /config
-ENV XDG_DATA_HOME /data
+ENV XDG_CONFIG_HOME=/config
+ENV XDG_DATA_HOME=/data
 
 LABEL org.opencontainers.image.version=master
 LABEL org.opencontainers.image.title=Caddy
