@@ -9,7 +9,7 @@ WORKDIR /build
 
 ENV XCADDY_VERSION latest
 # Configures xcaddy to build with this version of Caddy
-ENV CADDY_VERSION v2.10.0-beta.2
+ENV CADDY_VERSION v2.10.0-beta.3
 # Configures xcaddy to not clean up post-build (unnecessary in a container)
 ENV XCADDY_SKIP_CLEANUP 1
 # Sets capabilities for output caddy binary to be able to bind to privileged ports
@@ -44,7 +44,7 @@ RUN set -eux; \
     wget -O /usr/share/caddy/index.html "https://raw.githubusercontent.com/caddyserver/dist/refs/heads/master/welcome/index.html"
 
 # https://github.com/caddyserver/caddy/releases
-ENV CADDY_VERSION v2.10.0-beta.2
+ENV CADDY_VERSION v2.10.0-beta.3
 
 COPY --from=builder /build/caddy /usr/bin/caddy
 
@@ -52,7 +52,7 @@ COPY --from=builder /build/caddy /usr/bin/caddy
 ENV XDG_CONFIG_HOME /config
 ENV XDG_DATA_HOME /data
 
-LABEL org.opencontainers.image.version=v2.10.0-beta.2
+LABEL org.opencontainers.image.version=v2.10.0-beta.3
 LABEL org.opencontainers.image.title=Caddy
 LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
 LABEL org.opencontainers.image.url=https://caddyserver.com
