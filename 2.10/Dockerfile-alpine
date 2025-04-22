@@ -1,71 +1,18 @@
-FROM golang:1-alpine AS builder
+FROM caddy:2.10-builder-alpine AS builder
 
-RUN apk add --no-cache \
-    ca-certificates \
-    git \
-    libcap
+ENV CADDY_VERSION=v2.10.0
+ENV XCADDY_GO_BUILD_FLAGS="-ldflags '-w -s'"
 
-WORKDIR /build
+RUN xcaddy build \
+    --with github.com/caddy-dns/cloudflare@006ebb07b34945b53dd0bb31a7a823ef2e8ccc56 \
+    --with github.com/caddy-dns/duckdns@86ea11d23d37c85f3900a8c3093405e2bcd68d2e \
+    --with github.com/hairyhenderson/caddy-teapot-module@c51208f2ce6c7a99c88afd685aaa56e92e9a8e80 \
+    --with github.com/ueffel/caddy-brotli@3ddb0fc0da7f345e168008d396c9b2fa55985d4b
 
-ENV XCADDY_VERSION=latest
-# Configures xcaddy to build with this version of Caddy
-ENV CADDY_VERSION=v2.10.0-beta.4
-# Configures xcaddy to not clean up post-build (unnecessary in a container)
-ENV XCADDY_SKIP_CLEANUP=1
-# Sets capabilities for output caddy binary to be able to bind to privileged ports
-ENV XCADDY_SETCAP=1
+FROM caddy:2.10-alpine
 
-RUN set -eux; \
-    go install github.com/caddyserver/xcaddy/cmd/xcaddy@${XCADDY_VERSION}; \
-    mv ${GOPATH}/bin/xcaddy /usr/bin/xcaddy; \
-    chmod +x /usr/bin/xcaddy
+ENV CADDY_VERSION=v2.10.0
 
-RUN xcaddy build ${CADDY_VERSION} \
-    --with github.com/caddy-dns/cloudflare \
-    --with github.com/caddy-dns/duckdns \
-    --with github.com/hairyhenderson/caddy-teapot-module \
-    --with github.com/ueffel/caddy-brotli
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
-FROM alpine
-
-RUN apk add --no-cache \
-    ca-certificates \
-    libcap \
-    mailcap
-
-RUN set -eux; \
-    mkdir -p \
-        /config/caddy \
-        /data/caddy \
-        /etc/caddy \
-        /usr/share/caddy \
-    ; \
-    wget -O /etc/caddy/Caddyfile "https://raw.githubusercontent.com/caddyserver/dist/refs/heads/master/config/Caddyfile"; \
-    wget -O /usr/share/caddy/index.html "https://raw.githubusercontent.com/caddyserver/dist/refs/heads/master/welcome/index.html"
-
-# https://github.com/caddyserver/caddy/releases
-ENV CADDY_VERSION=v2.10.0-beta.4
-
-COPY --from=builder /build/caddy /usr/bin/caddy
-
-# See https://caddyserver.com/docs/conventions#file-locations for details
-ENV XDG_CONFIG_HOME=/config
-ENV XDG_DATA_HOME=/data
-
-LABEL org.opencontainers.image.version=v2.10.0-beta.4
-LABEL org.opencontainers.image.title=Caddy
-LABEL org.opencontainers.image.description="a powerful, enterprise-ready, open source web server with automatic HTTPS written in Go"
-LABEL org.opencontainers.image.url=https://caddyserver.com
-LABEL org.opencontainers.image.documentation=https://caddyserver.com/docs
-LABEL org.opencontainers.image.vendor="Light Code Labs"
-LABEL org.opencontainers.image.licenses=Apache-2.0
-LABEL org.opencontainers.image.source="https://github.com/ZhangXavier/caddy-docker"
-
-EXPOSE 80
-EXPOSE 443
-EXPOSE 443/udp
-EXPOSE 2019
-
-WORKDIR /srv
-
-CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+LABEL org.opencontainers.image.version=v2.10.0
